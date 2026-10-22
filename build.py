@@ -26,7 +26,7 @@ POOLS = [
        real=["Weekends are two different swims: lap swim 9am–1pm, then rec swim 1–4pm with the diving boards open.",
              "Weekdays 4–7pm the lap pool belongs to the Dolphin Aquatics swim team; there is no public swim 1–4pm.",
              "Water aerobics (Mon/Wed 10am) and Adult Swim (Mon/Wed/Fri 11am–1pm, Sat 9–11am) aren't on the city's pool grid at all.",
-             "$80 for 20 visits is the non-resident price; residents pay $60. Premier's site lists only $80.",
+             "$80 for 20 visits is the non-resident price, which is what a Laguna Beach swimmer pays; Laguna Niguel residents pay $60. Premier's site lists only $80.",
              "Closed Nov 26, Dec 12, Dec 24–25 and Dec 28–Jan 8 (maintenance). The city's holiday list gives no year."]),
   dict(n=2, slug="aliso-viejo", name="Aliso Viejo Aquatic Center", facility="Aliso Viejo Aquatic Center", area="Aliso Viejo",
        address="29 Santa Barbara Dr, Aliso Viejo, CA 92656", phone="(949) 425-2559", lat=33.600445, lng=-117.72586,
@@ -38,7 +38,7 @@ POOLS = [
        real=["The 3:30pm times are when lap swim stops, not when the pool closes: it's open to 6pm Mon–Thu, with the lanes going to the Flying Fish swim team from 4pm.",
              "Most weekends it closes early for weddings, at 2–3:30pm instead of 5pm. Those times are only on a Google Calendar.",
              "Three sources give three lap-swim cutoffs: 3:30pm, 3:55pm, and swim team from 4pm.",
-             "$8 and $246 are the non-resident prices; residents pay $6 and $187.",
+             "$8 and $246 are the non-resident prices (what a Laguna Beach swimmer pays); Aliso Viejo residents pay $6 and $187.",
              "The operator's page still shows last year's Thanksgiving dates and says the rec pool is \"closed until Spring 2026\"."]),
   dict(n=3, slug="montanoso", name="Montanoso Recreation Center", facility="Montanoso Recreation and Fitness Center", area="Mission Viejo",
        address="25800 Montanoso Dr, Mission Viejo, CA 92691", phone="(949) 859-4348", lat=33.587505, lng=-117.663139,
@@ -48,7 +48,7 @@ POOLS = [
        said="Weekdays: 5:30am-7:45pm · Saturdays: 7am-6:45pm · Sundays: 7am-4:45pm · Water aerobics offered · $10 drop-in, $40/month",
        real=["From noon to close, family rec swim shares the pool with lap swim. No page says how many lanes stay roped for laps.",
              "There is no water aerobics at Montanoso this fall. The city's only aqua classes moved from Sierra to the Marguerite complex.",
-             "$40/month is the non-resident membership; residents pay $30, and both pay a $50 initiation fee.",
+             "$40/month is the non-resident membership (Laguna Beach swimmers pay it), plus a $50 initiation fee the list leaves out.",
              "Holiday hours are published for the building, not the pool; the pool closes 15 minutes earlier."]),
   dict(n=4, slug="sierra", name="Sierra Recreation Center", facility="Sierra Recreation and Fitness Center", area="Mission Viejo",
        address="26887 Recodo Ln, Mission Viejo, CA 92691", phone="(949) 859-4348", lat=33.571677, lng=-117.659306,
@@ -66,7 +66,7 @@ POOLS = [
        fees="5 visits $16, 20 visits $55, annual $176 for adults (non-residents add $11 or $33).",
        said="Weekdays: 6-9pm · Weekends: 7am-12pm · Swim lessons offered · $16/5 visits, $209/year",
        real=["Weekends run 7am–2pm, not to noon.",
-             "$209 is the non-resident annual price; residents pay $176.",
+             "$209 is the non-resident annual price, which a Laguna Beach swimmer pays; Newport Beach residents pay $176.",
              "Swim lessons are summer-only; the city says Summer 2027 registration opens in March.",
              "The schedule is a PDF per month, and only September and October are posted. October's Saturdays say \"Limited Lanes\" without saying how many."]),
   dict(n=6, slug="woollett", name="Woollett Aquatics Center", facility="William Woollett Jr. Aquatics Center", area="Irvine",
@@ -205,8 +205,9 @@ index_body = f"""
           <li><b>Eight sites, six operators, eight formats.</b> Getting the real hours means a monthly PDF (Newport Beach), Canva images
             (Aliso Viejo, Laguna Niguel), a Google Calendar of wedding closures (Aliso Viejo), lane sheets saved as pictures and labeled
             "Summer" (San Clemente), a swim-team handbook (Laguna Niguel) and FlippingBook brochures.</li>
-          <li><b>Prices without saying whose.</b> Four of the pins quote the non-resident price without saying so. A Laguna Beach resident
-            pays it everywhere, but the list never says that's what it is.</li>
+          <li><b>Prices without saying whose.</b> Four pins quote a non-resident price with no label. That is the right price for a
+            Laguna Beach swimmer, who is a non-resident at every one of these pools. But nothing says so, and each operator's own page
+            leads with its resident price. Montanoso's $40/month also leaves out a $50 initiation fee.</li>
           <li><b>"Scheduled to begin on June 8, and is planned to last 12 months."</b> The city's page gives no year and still reads as
             future tense. The school district says construction began in June 2026 and ends in May 2027. Its own timeline also still
             says the pool would be under construction "from March to August 2026".</li>

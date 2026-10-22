@@ -49,7 +49,7 @@
     const ks = [];
     if (/^closes early/i.test(o.title)) return ["other"];
     if (/lesson|learn|level|parent|team|polo|splash ball|masters|adult swim|lifeguard|swim test|aquatics|novaquatics|academy|training/i.test(names)) ks.push("learn");
-    if (/fitness|aerobic|aqua (fit|zumba|exercise|blast|kickboxing)|water exercise|deep water|twinges|sculpt|aqua jog/i.test(names)) ks.push("fit");
+    if (/water fitness|aerobic|aqua (fit|zumba|exercise|blast|kickboxing)|water exercise|deep water|twinges|sculpt|aqua jog/i.test(names)) ks.push("fit");
     if (/lap/i.test(names) && !ks.includes("learn")) ks.push("lap");
     if (/rec swim|recreation|open swim|public swim|family rec|wading|splash pad/i.test(names)) ks.push("rec");
     return ks.length ? ks : ["other"];
@@ -177,9 +177,19 @@
     return `<div class="tl" aria-hidden="true">${bars}${now}</div>`;
   }
 
-  function sessionList(sessions, day) {
+  // Lesson slots come every half hour; unless someone is looking for lessons, one line says it.
+  const LESSON = /lesson|academy|private|parent|mighty fish|mini fish|super fish|big fish|starfish|seahorse|otter|stroke and conditioning|adult swim (basics|refinement)/i;
+  function foldLessons(sessions) {
+    const les = sessions.filter((o) => LESSON.test(o.title) && !/team|aquatics –/i.test(o.title));
+    if (les.length < 3) return sessions;
+    const a = les.reduce((m, o) => (o.start < m ? o.start : m), "99:99"), b = les.reduce((m, o) => (o.end > m ? o.end : m), "00:00");
+    const row = { title: `Swim lessons · ${les.length} classes`, start: a, end: b, kinds: ["learn"], laneText: "", parts: les, folded: true };
+    return sessions.filter((o) => !les.includes(o)).concat(row).sort((x, y) => x.start.localeCompare(y.start));
+  }
+  function sessionList(sessions, day, kind = "any") {
+    if (kind !== "learn") sessions = foldLessons(sessions);
     return `<ul class="sess">${sessions.map((o) => {
-      const cls = day === TODAY ? (mins(o.end) <= NOW ? "past" : mins(o.start) <= NOW ? "now" : "") : "";
+      const cls = o.folded ? "" : day === TODAY ? (mins(o.end) <= NOW ? "past" : mins(o.start) <= NOW ? "now" : "") : "";
       return `<li class="${cls}"><span class="t">${span(o.start, o.end)}</span><span class="k" ${swatch(o.kinds)}></span>` +
         `<span>${esc(o.title)}${o.laneText ? ` <span class="n">${esc(o.laneText)}</span>` : ""}</span></li>`;
     }).join("")}</ul>`;
@@ -324,7 +334,7 @@
           <h3><a href="${esc(p.href)}">${esc(p.name)}</a></h3>
           <div class="where">${esc(p.area)} · ${esc(p.address.replace(/, CA \d{5}$/, ""))}${r.dist != null ? ` · <b>${r.dist.toFixed(1)} mi</b>${state.me ? "" : ` <span class="muted">${esc(root.dataset.originLabel || "away")}</span>`}` : ""}</div>
           <p class="state ${d.state}"><span class="dot"></span>${esc(d.line)}</p>
-          ${ses.length ? timeline(ses, day) + sessionList(ses, day) : ""}
+          ${ses.length ? timeline(ses, day) + sessionList(ses, day, state.kind) : ""}
         </div></li>`;
     };
     list.innerHTML = (shown.length ? shown.map(card).join("") : `<li class="empty">No pool${where} matches. ${rest.length ? "The closest options are below." : ""}</li>`) +
