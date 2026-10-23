@@ -11,3 +11,7 @@ Not operated by or affiliated with the City of Laguna Beach or any pool listed.
 - `views.json`: Pool Relay share tokens, one lane-by-lane view per facility. Woollett's is the City of Irvine view.
 - `finder.js`: the live board (`#finder`), one pool's day (`#today`) and the computed printable week (`#week`).
 - `style.css`: page chrome after the city's theme, plus the finder.
+
+No schedule is typed into the pages. Each pool's lap and rec swim week and its coming closures are `data-live` elements
+that `finder.js` fills from the live Pool Relay views. The only times in `build.py` are the city's own map-pin text,
+quoted and dated ("The city's list said on October 22"), shown beside the live schedule.

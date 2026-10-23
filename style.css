@@ -64,6 +64,8 @@ h3{color:var(--teal)}
 .card .n{font-family:"PT Sans Narrow",sans-serif;color:var(--sky-2);font-weight:700;margin-right:6px}
 .card p{margin:0;font-size:14.5px;color:var(--body)}
 .card .said{font-size:13.5px;color:var(--muted);border-top:1px dashed var(--rule);padding-top:6px;margin-top:4px}
+.card .live{font-size:13.5px;margin:6px 0 0;font-variant-numeric:tabular-nums}
+.card .closed,.finding .closed{font-size:13.5px;margin:4px 0 0;color:var(--rust-d)}
 .replaces{margin-top:30px;background:var(--wash);border-radius:8px;padding:6px 20px 14px}
 .replaces li{margin:0 0 10px;color:var(--body);font-size:15.5px}
 .replaces li b{color:var(--ink)}

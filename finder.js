@@ -35,6 +35,7 @@
   };
   const weekday = (iso, style = "long") => new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { weekday: style, timeZone: "UTC" });
   const monthDay = (iso) => new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const T = (s) => s; // English only
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   // ── What a session is, for filtering and color ───────────────────────────────
@@ -201,6 +202,115 @@
     const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLng / 2) ** 2;
     return 2 * R * Math.asin(Math.sqrt(h));
   };
+
+  // ── Schedule facts in the page's text, computed from the live schedule ──────
+  // No hours, days or dates are typed into these pages. Each element with data-live fills in from
+  // the same feed as the calendar, so a change in Pool Relay changes the text too.
+  //   data-live="when" data-title="Lap Swim|…"  one program's week: "Mon–Fri 6:30–9:30am and 5–7:30pm; Sat 8:30–11:30am"
+  //   data-live="hours"                          the pool's week, every session; data-format="dl" for a list by day
+  //   data-live="swims"                          lap and rec swim by week, and what else runs there
+  //   data-live="closures"                       coming closures; the element hides when there are none
+  // Each also needs data-view (the feed) and data-pool (a slug in window.POOLS).
+  const AHEAD = 28; // a "regular week" is read from the next four weeks
+  const feeds = {};
+  const feed = (view) => (feeds[view] ||= load(view, TODAY, addDays(TODAY, 120)));
+  const dow = (iso) => (new Date(iso + "T12:00:00Z").getUTCDay() + 6) % 7; // Monday = 0
+  const LOCALE = (window.LANG || "en") === "es" ? "es-US" : "en-US";
+  const dayName = (i, style) => { const s = weekday(addDays("2024-01-01", i), style).replace(/\.$/, ""); return s[0].toUpperCase() + s.slice(1); };
+  const hhmm = (m) => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+  const isClosure = (o) => o.allDay && /clos/i.test(o.orig || o.title);
+  const closedOn = (evs, d) => evs.some((o) => isClosure(o) && o.date <= d && (o.endDate || o.date) >= d);
+  // A day's hours: each stretch with someone in the water, or (whole) first session to last.
+  function hoursOf(list, whole) {
+    const iv = list.map((o) => [mins(o.start), mins(o.end)]).sort((a, b) => a[0] - b[0]);
+    if (whole) return span(hhmm(iv[0][0]), hhmm(Math.max(...iv.map((x) => x[1]))));
+    const out = [];
+    // Back-to-back classes with a changeover of 15 minutes or less read as one stretch.
+    for (const [a, b] of iv) { if (out.length && a <= out[out.length - 1][1] + 15) out[out.length - 1][1] = Math.max(out[out.length - 1][1], b); else out.push([a, b]); }
+    return out.map(([a, b]) => span(hhmm(a), hhmm(b))).join(` ${T("and")} `);
+  }
+  // A program's regular week: each weekday it runs in at least half its weeks, with that weekday's most common hours.
+  function weekly(evs, pick, whole) {
+    const end = addDays(TODAY, AHEAD - 1);
+    const byDate = {};
+    for (const o of evs) if (!o.allDay && o.date >= TODAY && o.date <= end && pick(o) && !closedOn(evs, o.date)) (byDate[o.date] ||= []).push(o);
+    const dates = Object.keys(byDate).sort();
+    if (!dates.length) return null;
+    const weeks = new Set(dates.map((d) => addDays(d, -dow(d)))).size;
+    const seen = Array.from({ length: 7 }, () => ({}));
+    for (const d of dates) { const h = hoursOf(byDate[d], whole); seen[dow(d)][h] = (seen[dow(d)][h] || 0) + 1; }
+    const hours = seen.map((c) => {
+      const n = Object.values(c).reduce((s, x) => s + x, 0);
+      return n && n >= Math.ceil(weeks / 2) ? Object.entries(c).sort((a, b) => b[1] - a[1])[0][0] : "";
+    });
+    return { hours, first: dates[0], last: dates[dates.length - 1], end };
+  }
+  // Weekdays with the same hours, as "Mon–Fri" or "Mon/Wed/Fri".
+  function dayGroups(hours, style) {
+    const groups = [];
+    hours.forEach((h, i) => { if (h === "") return; const g = groups.find((x) => x.h === h); g ? g.days.push(i) : groups.push({ h, days: [i] }); });
+    return groups.map(({ h, days }) => {
+      const runs = [];
+      for (const d of days) { const r = runs[runs.length - 1]; r && d === r[r.length - 1] + 1 ? r.push(d) : runs.push([d]); }
+      return { h, label: runs.map((r) => (r.length >= 3 ? `${dayName(r[0], style)}–${dayName(r[r.length - 1], style)}` : r.map((d) => dayName(d, style)).join("/"))).join("/") };
+    });
+  }
+  function whenText(evs, pick) {
+    const w = weekly(evs, pick);
+    const groups = w ? dayGroups(w.hours, "short") : [];
+    if (!groups.length) {
+      const next = evs.find((o) => !o.allDay && o.date >= TODAY && pick(o) && !closedOn(evs, o.date));
+      return next ? `${T("Next")}: ${weekday(next.date)} ${monthDay(next.date)}, ${span(next.start, next.end)}` : T("Nothing scheduled in the next four weeks");
+    }
+    let s = groups.map((g) => `${g.label} ${g.h}`).join("; ");
+    if (w.first > addDays(TODAY, 6)) s = `${T("Starts")} ${monthDay(w.first)}: ${s}`;
+    if (w.last < addDays(w.end, -6)) s += `, ${T("through")} ${monthDay(w.last)}`;
+    return s;
+  }
+  const dateRange = (a, b) => new Intl.DateTimeFormat(LOCALE, { month: "short", day: "numeric", timeZone: "UTC" })
+    .formatRange(new Date(a + "T12:00:00Z"), new Date(b + "T12:00:00Z")).replace(/\s*–\s*/, "–");
+  function closureList(evs) {
+    const seen = new Set();
+    return evs.filter((o) => isClosure(o) && (o.endDate || o.date) >= TODAY && o.date <= addDays(TODAY, 90))
+      .filter((o) => { const k = `${o.orig || o.title}|${o.date}`; if (seen.has(k)) return false; seen.add(k); return true; })
+      .map((o) => {
+        const last = o.endDate || o.date;
+        const when = o.date <= TODAY
+          ? (/until a reopening date is announced/i.test(o.description || "") ? T("now, no reopening date yet") : `${T("now")} ${T("through")} ${monthDay(last)}`)
+          : last !== o.date ? dateRange(o.date, last) : monthDay(o.date);
+        const why = o.title.replace(/^(closed|cerrado)\s*[:–—-]\s*/i, "");
+        return /^(closed|cerrado)$/i.test(why.trim()) ? when : `${when} (${why})`;
+      });
+  }
+  document.querySelectorAll("[data-live]").forEach((el) => {
+    const pool = POOLS.find((p) => p.slug === el.dataset.pool);
+    feed(el.dataset.view).then((byFac) => {
+      const evs = byFac[pool.facility] || [];
+      const mode = el.dataset.live;
+      if (mode === "when") {
+        const want = el.dataset.title.split("|");
+        el.textContent = whenText(evs, (o) => want.includes(o.orig || o.title));
+      } else if (mode === "hours") {
+        const w = weekly(evs, (o) => !/^closes early/i.test(o.orig || o.title), true);
+        const hours = (w ? w.hours : Array(7).fill("")).map((h) => h || T("Closed"));
+        const groups = dayGroups(hours, el.dataset.format === "dl" ? "long" : "short");
+        el.innerHTML = el.dataset.format === "dl"
+          ? `<dl>${groups.map((g) => `<dt>${esc(g.label)}</dt><dd>${esc(g.h)}</dd>`).join("")}</dl>`
+          : esc(groups.map((g) => `${g.label} ${g.h}`).join("; "));
+      } else if (mode === "swims") {
+        const lines = ["lap", "rec"].filter((k) => evs.some((o) => !o.allDay && o.date >= TODAY && o.kinds.includes(k)))
+          .map((k) => `<b>${esc(T(KINDS[k].label))}:</b> ${esc(whenText(evs, (o) => o.kinds.includes(k)))}`);
+        const also = ["fit", "learn"].filter((k) => evs.some((o) => !o.allDay && o.date >= TODAY && o.date < addDays(TODAY, AHEAD) && o.kinds.includes(k)))
+          .map((k) => T(KINDS[k].label).toLowerCase());
+        if (also.length) lines.push(`${T("Also")}: ${esc(also.join(` ${T("and")} `))}.`);
+        el.innerHTML = lines.join("<br>") || esc(T("Nothing scheduled in the next four weeks"));
+      } else if (mode === "closures") {
+        const list = closureList(evs);
+        el.hidden = !list.length;
+        el.innerHTML = `<b>${esc(T(el.dataset.label || "Closed"))}:</b> ${esc(list.join("; "))}.`;
+      }
+    }).catch(() => { el.textContent = T("See the calendar for times."); });
+  });
 
   // ── One pool's page ─────────────────────────────────────────────────────────
   const single = document.getElementById("today");

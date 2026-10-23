@@ -23,11 +23,10 @@ POOLS = [
        water="25-yard lap pool, 13 lanes, with diving boards; a warm (87°) teaching pool",
        fees="$5 drop-in for adults 14–59, $4 for seniors and youth. 20-swim pass: $60 resident, $80 non-resident.",
        said="Weekdays: 6am-1pm & 7-8pm · Weekends: 9am-4pm · Swim lessons & water aerobics offered · $5 drop-in, $80/20 visits",
-       real=["Weekends are two different swims: lap swim 9am–1pm, then rec swim 1–4pm with the diving boards open.",
-             "Weekdays 4–7pm the lap pool belongs to the Dolphin Aquatics swim team; there is no public swim 1–4pm.",
-             "Water aerobics (Mon/Wed 10am) and Adult Swim (Mon/Wed/Fri 11am–1pm, Sat 9–11am) aren't on the city's pool grid at all.",
+       real=["Weekday afternoons the lap pool belongs to the Dolphin Aquatics swim team, and the city's grid doesn't say so.",
+             "Water aerobics and Adult Swim aren't on the city's pool grid at all.",
              "$80 for 20 visits is the non-resident price, which is what a Laguna Beach swimmer pays; Laguna Niguel residents pay $60. Premier's site lists only $80.",
-             "Closed Nov 26, Dec 12, Dec 24–25 and Dec 28–Jan 8 (maintenance). The city's holiday list gives no year."]),
+             "The city's holiday closure list gives no year."]),
   dict(n=2, slug="aliso-viejo", name="Aliso Viejo Aquatic Center", facility="Aliso Viejo Aquatic Center", area="Aliso Viejo",
        address="29 Santa Barbara Dr, Aliso Viejo, CA 92656", phone="(949) 425-2559", lat=33.600445, lng=-117.72586,
        operator="Premier Aquatics (Premier Swim Academy / SwimOC), under contract with the City of Aliso Viejo",
@@ -35,9 +34,9 @@ POOLS = [
        water="25-meter lap pool (lane count not published), wading pool and splash pad; the rec pool is summer-only",
        fees="Day pass $6 resident / $8 non-resident adults. Annual $187 / $246.",
        said="Mon/Wed: 10am-3:30pm · Tue/Thu: 6:30am-3:30pm · Fri-Sun: 10am-5pm · Swim lessons, swim team & water aerobics offered · $8 drop-in, $246/year",
-       real=["The 3:30pm times are when lap swim stops, not when the pool closes: it's open to 6pm Mon–Thu, with the lanes going to the Flying Fish swim team from 4pm.",
-             "Most weekends it closes early for weddings, at 2–3:30pm instead of 5pm. Those times are only on a Google Calendar.",
-             "Three sources give three lap-swim cutoffs: 3:30pm, 3:55pm, and swim team from 4pm.",
+       real=["The pin's afternoon times are when lap swim stops, not when the pool closes; the Flying Fish swim team takes the lanes after.",
+             "Most weekends it closes early for weddings, and those closings are posted only on a Google Calendar.",
+             "Three sources give three different lap-swim cutoffs.",
              "$8 and $246 are the non-resident prices (what a Laguna Beach swimmer pays); Aliso Viejo residents pay $6 and $187.",
              "The operator's page still shows last year's Thanksgiving dates and says the rec pool is \"closed until Spring 2026\"."]),
   dict(n=3, slug="montanoso", name="Montanoso Recreation Center", facility="Montanoso Recreation and Fitness Center", area="Mission Viejo",
@@ -46,17 +45,17 @@ POOLS = [
        water="25-yard pool, 6 lanes",
        fees="Day use $10 adults, $5 youth. Membership $30/month resident, $40 non-resident, plus a $50 initiation fee.",
        said="Weekdays: 5:30am-7:45pm · Saturdays: 7am-6:45pm · Sundays: 7am-4:45pm · Water aerobics offered · $10 drop-in, $40/month",
-       real=["From noon to close, family rec swim shares the pool with lap swim. No page says how many lanes stay roped for laps.",
-             "There is no water aerobics at Montanoso this fall. The city's only aqua classes moved from Sierra to the Marguerite complex.",
+       real=["Family rec swim shares the pool with lap swim, and no page says how many lanes stay roped for laps.",
+             "The pin lists water aerobics, but Mission Viejo's aqua classes moved to the Marguerite complex.",
              "$40/month is the non-resident membership (Laguna Beach swimmers pay it), plus a $50 initiation fee the list leaves out.",
-             "Holiday hours are published for the building, not the pool; the pool closes 15 minutes earlier."]),
+             "Holiday hours are published for the building, not the pool, which closes earlier."]),
   dict(n=4, slug="sierra", name="Sierra Recreation Center", facility="Sierra Recreation and Fitness Center", area="Mission Viejo",
        address="26887 Recodo Ln, Mission Viejo, CA 92691", phone="(949) 859-4348", lat=33.571677, lng=-117.659306,
        operator="City of Mission Viejo", url="https://www.missionviejo.gov/aquatics", view="sierra",
        water="25-yard pool, 8 lanes, diving board",
        fees="Same as Montanoso: day use $10 adults, $5 youth.",
        said="Weekdays: 5:30am-7:45pm · Saturdays: 7am-6:45pm · Sundays: 7am-4:45pm · Water aerobics offered · $10 drop-in, $40/month",
-       real=["The pool has been closed since Sep 8 for replastering. The city gives only a tentative reopening \"by Thanksgiving weekend\".",
+       real=["The pin still lists hours for a pool that has been closed since September for replastering.",
              "Mission Viejo's own pages disagree on the closure: Sep 8 on the Aquatics page, Sep 1–Nov 30 on the rentals page.",
              "The city's lap and rec swim table still lists Sierra's hours beside Montanoso's, with no dates."]),
   dict(n=5, slug="marian-bergeson", name="Marian Bergeson Aquatic Complex", facility="Marian Bergeson Aquatic Center", area="Newport Beach",
@@ -65,7 +64,7 @@ POOLS = [
        water="One outdoor pool, 50 m × 8 lanes or 25 yd × 18 lanes (a directory's figures; the city publishes none)",
        fees="5 visits $16, 20 visits $55, annual $176 for adults (non-residents add $11 or $33).",
        said="Weekdays: 6-9pm · Weekends: 7am-12pm · Swim lessons offered · $16/5 visits, $209/year",
-       real=["Weekends run 7am–2pm, not to noon.",
+       real=["The pin's weekend hours end two hours early.",
              "$209 is the non-resident annual price, which a Laguna Beach swimmer pays; Newport Beach residents pay $176.",
              "Swim lessons are summer-only; the city says Summer 2027 registration opens in March.",
              "The schedule is a PDF per month, and only September and October are posted. October's Saturdays say \"Limited Lanes\" without saying how many."]),
@@ -82,9 +81,9 @@ POOLS = [
        water="50-meter competition pool (17 short-course lanes) and a 25-yard, 6-lane activity pool with slides",
        fees="$8 resident / $13 non-resident adults. Monthly $83 / $132; annual $400 / $732.",
        said="Mon/Wed/Fri: 5:30am-3pm & 4:30-8pm · Tue/Thu: 5:30am-12pm & 4:30-8pm · Saturday: 9am-4pm · Swim lessons & water aerobics offered · $13 drop-in, $132/month, $732/year",
-       real=["Mon/Wed/Fri lap swim runs 5:30am–8pm with no midday break; the break is only Tue/Thu, noon to 4:30pm, for staffing.",
+       real=["The pin's midday break is only on some days, not the ones it lists.",
              "San Clemente's own three listings disagree on Friday (8pm or 6pm) and Sunday (closed, or noon–4pm).",
-             "On weekday evenings the swim team and water polo club take most lanes; the allocation sheet leaves lanes 1–2 and 11–12 public.",
+             "On weekday evenings the swim team and water polo club take most lanes; the lane calendar shows which stay public.",
              "The lane sheet is labeled \"SUMMER 2026\" but is the Aug 17–31 fall sheet, and nothing newer is posted.",
              "Thanksgiving: the same page says closed Nov 26–27 in one place and Nov 27–28 in another."]),
   dict(n=8, slug="ole-hanson", name="Ole Hanson Beach Club", facility="Ole Hanson Beach Club", area="San Clemente",
@@ -93,9 +92,9 @@ POOLS = [
        water="25-yard, 6-lane pool and a teaching pool, above the beach",
        fees="Same passes as the Aquatics Center: $8 resident / $13 non-resident adults.",
        said="Mon-Thu: 4:30-6:30pm · Tue/Thu: 8am-12pm · Sunday: 12-4pm · Swim lessons offered · $13 drop-in, $132/month, $732/year",
-       real=["There is no Mon–Thu 4:30–6:30pm lap swim on any San Clemente page. Lap swim is Tue/Thu 8am–noon.",
-             "Sundays noon–4pm are junior lap swim (ages 8–14) and rec swim in the teaching pool, not adult laps.",
-             "Closed for winter maintenance from Nov 22 to Dec 6; the city's own page gives the start as both Nov 21 and Nov 22."]),
+       real=["The pin's Mon–Thu evening lap swim isn't on any San Clemente page.",
+             "Sunday's swim is junior lap swim (ages 8–14) and rec swim in the teaching pool, not adult laps.",
+             "The city's own page gives two different start dates for the winter maintenance closure."]),
 ]
 for p in POOLS:
     p["mi"] = miles(LBHS, (p["lat"], p["lng"]))
@@ -170,7 +169,9 @@ CONTACT = """<h3>Contact Us</h3><div class="b"><p><b>Laguna Beach HS &amp; Commu
 cards = "".join(f"""<li class="card"><h3><span class="n">{p['n']}</span><a href="{p['href']}">{E(p['name'])}</a></h3>
   <p>{E(p['area'])} · <b>{p['mi']:.1f} mi</b> from the LBHS pool</p>
   <p>{E(p['water'])}</p>
-  <p class="said"><b>The city's list says:</b> {E(p['said'])}{'' if p['slug'] == 'woollett' else f"<br><b>Not quite:</b> {E(p['real'][0])}"}</p></li>""" for p in POOLS)
+  <p class="said"><b>The city's list said on October 22:</b> {E(p['said'])}</p>
+  <p class="live"><b>From the live schedule:</b><br><span data-live="swims" data-view="{FEED}" data-pool="{p['slug']}">…</span></p>
+  <p class="closed" data-live="closures" data-view="{FEED}" data-pool="{p['slug']}" hidden></p></li>""" for p in POOLS)
 index_body = f"""
       <div class="alert"><b>The pool is closed for reconstruction.</b> Work began in June 2026 and is planned to finish in
         about May 2027. Until then, these eight pools in neighboring cities are open for lap swim, lessons and water fitness.</div>
@@ -199,9 +200,9 @@ index_body = f"""
         <h2>What this replaces</h2>
         <ul>
           <li><b>A map of pins copied once.</b> The city's map and printable PDF copy each pool's hours from one moment. By October,
-            several were already wrong. Sierra has been closed since September 8. Newport Beach's weekends run to 2pm, not noon. Ole Hanson
-            has no Mon–Thu evening lap swim. Montanoso offers no water aerobics this fall. Aliso Viejo's "3:30pm" is when lap swim stops,
-            not when the pool closes.</li>
+            several were already wrong: hours listed for a pool closed for replastering, weekend hours that end two hours early, an
+            evening lap swim no operator offers, water aerobics that moved elsewhere, and a lap-swim cutoff shown as closing time.
+            Each card above sets the city's pin beside the pool's live schedule.</li>
           <li><b>Eight sites, six operators, eight formats.</b> Getting the real hours means a monthly PDF (Newport Beach), Canva images
             (Aliso Viejo, Laguna Niguel), a Google Calendar of wedding closures (Aliso Viejo), lane sheets saved as pictures and labeled
             "Summer" (San Clemente), a swim-team handbook (Laguna Niguel) and FlippingBook brochures.</li>
@@ -235,8 +236,10 @@ for p in POOLS:
       <!--WIDE-->
       <h2>Lane by lane</h2>
       <div class="frame"><iframe src="https://www.poolrelay.com/embed/{V[p['view']]}" height="760" title="{E(p['name'])}, by lane" loading="lazy"></iframe></div>
-      <div class="finding"><b>The city's list says:</b> {E(p['said'])}
-        <ul>{real}</ul>
+      <div class="finding"><b>The city's list said on October 22:</b> {E(p['said'])}
+        <p style="margin:8px 0 0"><b>From the live schedule:</b><br><span data-live="swims" data-view="{FEED}" data-pool="{p['slug']}">…</span></p>
+        <p class="closed" style="margin:6px 0 0" data-live="closures" data-view="{FEED}" data-pool="{p['slug']}" hidden></p>
+        {f"<p style='margin:8px 0 0'><b>What else we found:</b></p><ul>{real}</ul>" if real else ""}
         <p style="margin:6px 0 0">Source: <a href="{E(p['url'])}" target="_blank" rel="noopener">{E(p['url'].split('//')[1].split('/')[0])}</a>, read October 22, 2026.</p></div>"""
     head, tail = body.split("<!--WIDE-->")
     page(f"pools/{p['slug']}.html", p["name"], None,
